@@ -19,7 +19,7 @@ namespace CardGames.GameLogic
         HEART,
         SPADE
     }
-    
+
     /// <summary>
     /// The Rank enumeration provides a list of all of the valid ranks (values)
     /// for the cards in the program. The ACE has value 1, ensuring that it is
@@ -41,7 +41,7 @@ namespace CardGames.GameLogic
         QUEEN,
         KING //king is 13
     }
-    
+
     /// <summary>
     /// Each Card has a Rank and a Suit, and can be either face up or face down.
     /// </summary>
@@ -50,29 +50,29 @@ namespace CardGames.GameLogic
         private Rank _rank;
         private Suit _suit;
         private bool _faceUp;
-        
+
         /// <summary>
         /// Create a new card with the indicated rank and suit.
         /// By default the card will be face down.
         /// </summary>
         /// <param name="r">The rank value for the card.</param>
         /// <param name="s">The suit value for the card.</param>
-        public Card (Rank r, Suit s)
+        public Card(Rank r, Suit s)
         {
             _rank = r;
             _suit = s;
             _faceUp = false;
         }
-        
+
         /// <summary>
         /// Create and return a new card with randomised Rank and Suit.
         /// </summary>
         public static Card RandomCard()
         {
-            Rank randomRank = (Rank)( SwinGame.Rnd ((int)Rank.KING) + 1);
-            Suit randomSuit = (Suit)( SwinGame.Rnd ((int)Suit.SPADE + 1));
-            
-            Card randomCard = new Card (randomRank, randomSuit);
+            Rank randomRank = (Rank)(SwinGame.Rnd((int)Rank.KING) + 1);
+            Suit randomSuit = (Suit)(SwinGame.Rnd((int)Suit.SPADE + 1));
+
+            Card randomCard = new Card(randomRank, randomSuit);
 
             return randomCard;
         }
@@ -85,7 +85,7 @@ namespace CardGames.GameLogic
         {
             get { return _rank; }
         }
-        
+
         /// <summary>
         /// Allows you to read the value of the Card's suit.
         /// </summary>
@@ -103,14 +103,14 @@ namespace CardGames.GameLogic
         {
             get { return _faceUp; }
         }
-        
+
         /// <summary>
         /// Turns the card over, a face up card will become face down whereas a face down card will become
         /// face up.
         /// </summary>
         public void TurnOver()
         {
-            _faceUp = ! _faceUp;
+            _faceUp = !_faceUp;
         }
 
         /// <summary>
@@ -128,16 +128,16 @@ namespace CardGames.GameLogic
                 {
                     switch (_suit)
                     {
-                    case Suit.SPADE:
-                        return (int)_rank - 1; // Ace = 1, but Ace Spades should be 0
-                    case Suit.HEART:
-                        return 12 + (int)_rank;
-                    case Suit.DIAMOND:
-                        return 25 + (int)_rank;
-                    case Suit.CLUB:
-                        return 38 + (int)_rank;
-                    default:
-                        return 52;
+                        case Suit.SPADE:
+                            return (int)_rank - 1; // Ace = 1, but Ace Spades should be 0
+                        case Suit.HEART:
+                            return 12 + (int)_rank;
+                        case Suit.DIAMOND:
+                            return 25 + (int)_rank;
+                        case Suit.CLUB:
+                            return 38 + (int)_rank;
+                        default:
+                            return 52;
                     }
                 }
                 else
@@ -145,7 +145,7 @@ namespace CardGames.GameLogic
 
             }
         }
-        
+
         /// <summary>
         /// Returns a <see cref="System.String"/> that represents the current <see cref="CardGames.Card"/>. This will have
         /// the first character representing the rank (using T for 10), and then a symbol for the suit. For example, QS is
@@ -158,8 +158,9 @@ namespace CardGames.GameLogic
             if (_faceUp)
             {
                 String result = "";
-        
-                switch (_rank){
+
+                switch (_rank)
+                {
                     case Rank.JACK:
                         result += "J";
                         break;
@@ -179,8 +180,9 @@ namespace CardGames.GameLogic
                         result += (int)_rank;
                         break;
                 }
-        
-                switch (_suit) {
+
+                switch (_suit)
+                {
                     case Suit.CLUB:
                         result += "C";
                         break;
@@ -197,9 +199,9 @@ namespace CardGames.GameLogic
                         result += "?";
                         break;
                 }
-        
+
                 return result;
-            }    
+            }
             else
             {
                 return "**";
@@ -210,76 +212,76 @@ namespace CardGames.GameLogic
     // Wrap the unit tests in a region.
     #region Unit Tests
 
-    #if DEBUG
+#if DEBUG
 
     public class CardUnitTests
     {
         [Test]
         public void TestCardCreation()
         {
-            Card c = new Card (Rank.KING, Suit.HEART);
+            Card c = new Card(Rank.KING, Suit.HEART);
             c.TurnOver();
-            Assert.AreEqual (Rank.KING, c.Rank);
-            Assert.AreEqual (Suit.HEART, c.Suit);
+            Assert.AreEqual(Rank.KING, c.Rank);
+            Assert.AreEqual(Suit.HEART, c.Suit);
 
-            c = new Card (Rank.TWO, Suit.DIAMOND);
+            c = new Card(Rank.TWO, Suit.DIAMOND);
             c.TurnOver();
-            Assert.AreEqual (Rank.TWO, c.Rank);
-            Assert.AreEqual (Suit.DIAMOND, c.Suit);
+            Assert.AreEqual(Rank.TWO, c.Rank);
+            Assert.AreEqual(Suit.DIAMOND, c.Suit);
         }
 
         [Test]
         public void TestCardIndex()
         {
-            Card c = new Card (Rank.ACE, Suit.SPADE);
-            Assert.AreEqual (52, c.CardIndex);
+            Card c = new Card(Rank.ACE, Suit.SPADE);
+            Assert.AreEqual(52, c.CardIndex);
             c.TurnOver();
-			Assert.AreEqual (0, c.CardIndex);
+            Assert.AreEqual(0, c.CardIndex);
 
-            c = new Card (Rank.KING, Suit.CLUB);
-			Assert.AreEqual (52, c.CardIndex);
+            c = new Card(Rank.KING, Suit.CLUB);
+            Assert.AreEqual(52, c.CardIndex);
             c.TurnOver();
-			Assert.AreEqual (51, c.CardIndex);
+            Assert.AreEqual(51, c.CardIndex);
         }
 
         [Test]
         public void TestCardToString()
         {
-            Card c = new Card (Rank.ACE, Suit.SPADE);
+            Card c = new Card(Rank.ACE, Suit.SPADE);
             c.TurnOver();
-            Assert.AreEqual ("AS", c.ToString ());
+            Assert.AreEqual("AS", c.ToString());
 
-            c = new Card (Rank.TEN, Suit.CLUB);
+            c = new Card(Rank.TEN, Suit.CLUB);
             c.TurnOver();
-            Assert.AreEqual ("TC", c.ToString ());
+            Assert.AreEqual("TC", c.ToString());
 
-            c = new Card (Rank.THREE, Suit.DIAMOND);
+            c = new Card(Rank.THREE, Suit.DIAMOND);
             c.TurnOver();
-            Assert.AreEqual ("3D", c.ToString ());
+            Assert.AreEqual("3D", c.ToString());
 
-            c = new Card (Rank.JACK, Suit.HEART);
+            c = new Card(Rank.JACK, Suit.HEART);
             c.TurnOver();
-            Assert.AreEqual ("JH", c.ToString ());
+            Assert.AreEqual("JH", c.ToString());
         }
 
         [Test]
         public void TestCardTurnOver()
         {
             Card c = new Card(Rank.ACE, Suit.DIAMOND);
-            Assert.AreEqual ("**", c.ToString ());
+            Assert.AreEqual("**", c.ToString());
             c.TurnOver();
-            Assert.AreEqual ("AD", c.ToString ());
+            Assert.AreEqual("AD", c.ToString());
             c.TurnOver();
-            Assert.AreEqual ("**", c.ToString ());
+            Assert.AreEqual("**", c.ToString());
 
             c = new Card(Rank.FOUR, Suit.HEART);
-            Assert.AreEqual ("**", c.ToString ());
+            Assert.AreEqual("**", c.ToString());
             c.TurnOver();
-            Assert.AreEqual ("4H", c.ToString ());
+            Assert.AreEqual("4H", c.ToString());
         }
     }
 
-    #endif
+#endif
 
     #endregion
 }
